@@ -4,47 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="92e521af-1932-4225-abb0-b6c19c60994e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/task5.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/conf/app.ini" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/air.log-20210111" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/air.log-20210114" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/logs/air.log-20210115" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/middleware/log_to_file.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/error.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/errorInfo.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/mlmet.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/mlout.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/mlpollute.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/model.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/quota.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/quota_detail.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/role.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/setting/setting.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/util/my_logger.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/util/my_rocket.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pkg/util/send_message_to_mq.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/go_python_page.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/prediction_page.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/router.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/routers/user_page.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/prediction_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/user_list.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/db_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/log_to_file_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/rocket_test.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/time_to_str_test.go" afterDir="false" />
+    <list default="true" id="92e521af-1932-4225-abb0-b6c19c60994e" name="Default Changelist" comment="this is my first commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -263,7 +224,8 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="this is my first commit" />
+    <option name="LAST_COMMIT_MESSAGE" value="this is my first commit" />
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
@@ -352,14 +314,18 @@
     </state>
     <state x="10" y="0" key="SettingsEditor/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610695603133" />
     <state x="25" y="0" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609382610094" />
-    <state x="133" y="9" key="Vcs.Push.Dialog.v2" timestamp="1610697178399">
+    <state x="133" y="9" key="Vcs.Push.Dialog.v2" timestamp="1610697827997">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="133" y="9" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610697178399" />
+    <state x="133" y="9" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610697827997" />
     <state x="353" y="285" width="581" height="259" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize" timestamp="1610694919049">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="353" y="285" width="581" height="259" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610694919049" />
+    <state x="413" y="236" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610698166214">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="413" y="236" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610698166214" />
     <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup" timestamp="1610675712808">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
