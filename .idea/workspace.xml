@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="92e521af-1932-4225-abb0-b6c19c60994e" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/task5.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/conf/app.ini" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/air.log-20210111" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/air.log-20210114" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/logs/air.log-20210115" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/middleware/log_to_file.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/error.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/errorInfo.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/mlmet.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/mlout.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/mlpollute.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/model.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/quota.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/quota_detail.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/role.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/models/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/setting/setting.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/util/my_logger.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/util/my_rocket.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pkg/util/send_message_to_mq.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routers/go_python_page.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routers/prediction_page.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routers/router.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routers/user_page.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/prediction_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user_list.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/db_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/log_to_file_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/rocket_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/time_to_str_test.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="Go File" />
+      </list>
+    </option>
+  </component>
+  <component name="GOROOT" path="C:\Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GoLibraries">
+    <option name="indexEntireGoPath" value="false" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/models/model.go" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProjectId" id="1ldkTYQ0U43jGplI6ZnZoZo2Mdt" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="configurable.Global.GOPATH.is.expanded" value="true" />
+    <property name="configurable.Module.GOPATH.is.expanded" value="true" />
+    <property name="configurable.Project.GOPATH.is.expanded" value="true" />
+    <property name="go.import.settings.migrated" value="true" />
+    <property name="go.sdk.automatically.set" value="true" />
+    <property name="go.tried.to.enable.integration.vgo.integrator" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../task2" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\go_projects\task5\middleware" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Docker.docker-test2">
+    <configuration name="go build linux" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="task5" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <envs>
+        <env name="GOOS" value="linux" />
+      </envs>
+      <kind value="DIRECTORY" />
+      <filePath value="$PROJECT_DIR$" />
+      <package value="task5" />
+      <directory value="$PROJECT_DIR$" />
+      <output_directory value="$PROJECT_DIR$" />
+      <option name="run" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="go build task5" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="task5" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <filePath value="$PROJECT_DIR$/main.go" />
+      <package value="task5" />
+      <directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestCurrentTimeToStr in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="task5" />
+      <working_directory value="$PROJECT_DIR$/test" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="task5/test" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestCurrentTimeToStr\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestMlout in task5/test (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="task5" />
+      <working_directory value="$PROJECT_DIR$/test" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="task5/test" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestMlout\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestMlout in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="task5" />
+      <working_directory value="$PROJECT_DIR$/test" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="task5/test" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestMlout\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestTimeToStr in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="task5" />
+      <working_directory value="$PROJECT_DIR$/test" />
+      <framework value="gotest" />
+      <kind value="PACKAGE" />
+      <package value="task5/test" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <pattern value="^\QTestTimeToStr\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="Docker2">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="hz:2.0" />
+          <option name="buildCliOptions" value="" />
+          <option name="command" value="" />
+          <option name="containerName" value="hz_test" />
+          <option name="entrypoint" value="" />
+          <option name="portBindings">
+            <list>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="8088" />
+                <option name="hostPort" value="8098" />
+              </DockerPortBindingImpl>
+            </list>
+          </option>
+          <option name="commandLineOptions" value="" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2">
+        <option name="RunConfigurationTask" enabled="true" run_configuration_name="go build linux" run_configuration_type="GoApplicationRunConfiguration" />
+      </method>
+    </configuration>
+    <configuration name="docker-test" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="hz/test:1.0" />
+          <option name="buildCliOptions" value="" />
+          <option name="command" value="" />
+          <option name="containerName" value="my_test" />
+          <option name="entrypoint" value="" />
+          <option name="portBindings">
+            <list>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="8088" />
+                <option name="hostPort" value="8098" />
+              </DockerPortBindingImpl>
+            </list>
+          </option>
+          <option name="commandLineOptions" value="" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <configuration name="docker-test2" type="docker-deploy" factoryName="dockerfile" server-name="Docker2">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="hz/test:1.0" />
+          <option name="buildCliOptions" value="" />
+          <option name="command" value="" />
+          <option name="containerName" value="my_test" />
+          <option name="entrypoint" value="" />
+          <option name="portBindings">
+            <list>
+              <DockerPortBindingImpl>
+                <option name="containerPort" value="8088" />
+                <option name="hostPort" value="8098" />
+              </DockerPortBindingImpl>
+            </list>
+          </option>
+          <option name="commandLineOptions" value="" />
+          <option name="sourceFilePath" value="Dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Docker.Dockerfile" />
+      <item itemvalue="Docker.docker-test" />
+      <item itemvalue="Docker.docker-test2" />
+      <item itemvalue="Go Build.go build linux" />
+      <item itemvalue="Go Build.go build task5" />
+      <item itemvalue="Go Test.TestTimeToStr in task5/test" />
+      <item itemvalue="Go Test.TestCurrentTimeToStr in task5/test" />
+      <item itemvalue="Go Test.TestMlout in task5/test" />
+      <item itemvalue="Go Test.TestMlout in task5/test (1)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build task5" />
+        <item itemvalue="Go Test.TestMlout in task5/test (1)" />
+        <item itemvalue="Go Test.TestMlout in task5/test" />
+        <item itemvalue="Go Test.TestCurrentTimeToStr in task5/test" />
+        <item itemvalue="Go Test.TestTimeToStr in task5/test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="VgoProject">
+    <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="65" y="0" key="#Docker" timestamp="1610690665188">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="65" y="0" key="#Docker/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610690665188" />
+    <state x="679" y="30" width="467" height="650" key="#Menus_and_Toolbars" timestamp="1610696551581">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="679" y="30" width="467" height="650" key="#Menus_and_Toolbars/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610696551581" />
+    <state x="483" y="191" key="#Port_bindings" timestamp="1610691765982">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="483" y="191" key="#Port_bindings/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691765982" />
+    <state x="25" y="0" width="1097" height="675" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1610694920200">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="25" y="0" width="1097" height="675" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610694920200" />
+    <state x="345" y="124" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1610351650371">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="345" y="124" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610351650371" />
+    <state x="368" y="37" key="FileChooserDialogImpl" timestamp="1610528662333">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="368" y="37" key="FileChooserDialogImpl/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610528662333" />
+    <state x="368" y="37" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609382447163" />
+    <state x="368" y="37" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1609079993917" />
+    <state width="1227" height="198" key="GridCell.Tab.0.bottom" timestamp="1610691264600">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1867" height="632" key="GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610075526356" />
+    <state width="1227" height="198" key="GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691264600" />
+    <state width="1227" height="125" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609389793436" />
+    <state width="1867" height="498" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1609405439327" />
+    <state width="1227" height="83" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1610031391513" />
+    <state width="1227" height="198" key="GridCell.Tab.0.center" timestamp="1610691264599">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1867" height="632" key="GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610075526356" />
+    <state width="1227" height="198" key="GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691264599" />
+    <state width="1227" height="125" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609389793436" />
+    <state width="1867" height="498" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1609405439326" />
+    <state width="1227" height="83" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1610031391513" />
+    <state width="1227" height="198" key="GridCell.Tab.0.left" timestamp="1610691264599">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1867" height="632" key="GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610075526356" />
+    <state width="1227" height="198" key="GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691264599" />
+    <state width="1227" height="125" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609389793436" />
+    <state width="1867" height="498" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1609405439326" />
+    <state width="1227" height="83" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1610031391513" />
+    <state width="1227" height="198" key="GridCell.Tab.0.right" timestamp="1610691264599">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1867" height="632" key="GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610075526356" />
+    <state width="1227" height="198" key="GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691264599" />
+    <state width="1227" height="125" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609389793436" />
+    <state width="1867" height="498" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1609405439326" />
+    <state width="1227" height="83" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1610031391513" />
+    <state width="1227" height="35" key="GridCell.Tab.1.bottom" timestamp="1610616746536">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1227" height="35" key="GridCell.Tab.1.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610616746536" />
+    <state width="731" height="264" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1608277293019" />
+    <state width="1227" height="35" key="GridCell.Tab.1.center" timestamp="1610616746536">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1227" height="35" key="GridCell.Tab.1.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610616746536" />
+    <state width="731" height="264" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1608277293019" />
+    <state width="1227" height="35" key="GridCell.Tab.1.left" timestamp="1610616746535">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1227" height="35" key="GridCell.Tab.1.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610616746535" />
+    <state width="731" height="264" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1608277293019" />
+    <state width="1227" height="35" key="GridCell.Tab.1.right" timestamp="1610616746536">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state width="1227" height="35" key="GridCell.Tab.1.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610616746536" />
+    <state width="731" height="264" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1608277293019" />
+    <state x="10" y="0" key="SettingsEditor" timestamp="1610695603133">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="10" y="0" key="SettingsEditor/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610695603133" />
+    <state x="25" y="0" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609382610094" />
+    <state x="133" y="9" key="Vcs.Push.Dialog.v2" timestamp="1610697178399">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="133" y="9" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610697178399" />
+    <state x="353" y="285" width="581" height="259" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize" timestamp="1610694919049">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="353" y="285" width="581" height="259" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610694919049" />
+    <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup" timestamp="1610675712808">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610675712808" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="GoApplicationRunConfiguration">
+        <watch expression="db" language="go" />
+      </configuration>
+    </watches-manager>
+  </component>
+</project>

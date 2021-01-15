@@ -1,0 +1,12 @@
+time="2021-01-11 16:18:39" level=info msg=loginGet func=task5/routers.loginGet file="D:/go_projects/task5/routers/user_page.go:19" method=dao
+time="2021-01-11 16:18:45" level=info msg=loginPost func=task5/routers.loginPost file="D:/go_projects/task5/routers/user_page.go:24" method=dao
+time="2021-01-11 16:19:08" level=info msg=loginGet func=task5/routers.loginGet file="D:/go_projects/task5/routers/user_page.go:19" method=dao
+time="2021-01-11 16:19:11" level=info msg=loginPost func=task5/routers.loginPost file="D:/go_projects/task5/routers/user_page.go:24" method=dao
+time="2021-01-11 16:19:18" level=info msg=loginGet func=task5/routers.loginGet file="D:/go_projects/task5/routers/user_page.go:19" method=dao
+time="2021-01-11 16:19:19" level=info msg=loginPost func=task5/routers.loginPost file="D:/go_projects/task5/routers/user_page.go:24" method=dao
+time="2021-01-11 16:36:37" level=info msg="登录请求" func=task5/routers.loginGet file="D:/go_projects/task5/routers/user_page.go:20" method=get/post
+time="2021-01-11 16:36:40" level=info msg=loginPost func=task5/routers.loginPost file="D:/go_projects/task5/routers/user_page.go:25" method=dao
+time="2021-01-11 16:36:40" level=info msg="验证用户名和密码" func=task5/models.CheckUser file="D:/go_projects/task5/models/user.go:19" method=dao
+time="2021-01-11 16:36:40" level=info msg="验证成功!" func=task5/models.CheckUser file="D:/go_projects/task5/models/user.go:22" method=dao
+time="2021-01-11 16:36:43" level=info msg="按照时间节点和污染物条件查询" func=task5/routers.servicePost file="D:/go_projects/task5/routers/prediction_page.go:29" method=dao
+time="2021-01-11 16:36:57" level=info msg="按照时间节点和污染物条件查询" func=task5/routers.servicePost file="D:/go_projects/task5/routers/prediction_page.go:29" method=dao

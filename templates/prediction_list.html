@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预测结果</title>
+</head>
+<tbody>
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>时间</th>
+        <th>站点名</th>
+        <th>预测物</th>
+        <th>预测值</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{range .data}}
+        <tr>
+            <td>{{.Id}}</td>
+            <td>{{.TimePoint}}</td>
+            <td>{{.StationName}}</td>
+            <td>{{.Substance}}</td>
+            <td>{{.PredictionValue}}</td>
+        </tr>
+    {{end}}
+    </tbody>
+</table>
+</tbody>
+</html>
