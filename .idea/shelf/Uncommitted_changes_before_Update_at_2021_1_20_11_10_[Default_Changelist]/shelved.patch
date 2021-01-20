@@ -1,0 +1,487 @@
+Index: main.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package main\r\n\r\nimport (\r\n\t\"fmt\"\r\n\t\"net/http\"\r\n\t\"task5/pkg/setting\"\r\n\t\"task5/routers\"\r\n)\r\n\r\nfunc main() {\r\n\trouter := routers.InitRouter()\r\n\r\n\ts := &http.Server{\r\n\t\tAddr:           fmt.Sprintf(\":%d\", setting.HTTPPort),\r\n\t\tHandler:        router,\r\n\t\tReadTimeout:    setting.ReadTimeout,\r\n\t\tWriteTimeout:   setting.WriteTimeout,\r\n\t\tMaxHeaderBytes: 1 << 20,\r\n\t}\r\n\r\n\ts.ListenAndServe()\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- main.go	(revision dc99758f53f059cc44da805bf3b592078587c2b6)
++++ main.go	(date 1610701789221)
+@@ -19,4 +19,4 @@
+ 	}
+ 
+ 	s.ListenAndServe()
+-}
++}
+\ No newline at end of file
+Index: test/db_test.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package test\r\n\r\nimport (\r\n\t\"fmt\"\r\n\t\"task5/models\"\r\n\t\"testing\"\r\n)\r\n\r\n//进行单元测试时，需要将setting/setting.go的init() 方法中\r\n//Cfg, err = ini.Load(\"conf/app.ini\") 改为 Cfg, err = ini.Load(\"../conf/app.ini\")\r\nfunc TestDB(t *testing.T) {\r\n\t//测试数据库连接是否成功 username 用户名 password 密码\r\n\tisExist := models.CheckUser(\"admin\", \"admin123\")\r\n\tfmt.Println(isExist)\r\n\t//测试增加用户\r\n\tdata := make(map[string]interface{})\r\n\tdata[\"id\"] = 3\r\n\tdata[\"username\"] = \"test\"\r\n\tdata[\"realname\"] = \"testrealname\"\r\n\tdata[\"password\"] = \"test123\"\r\n\tdata[\"email\"] = \"2969141711@qq.com\"\r\n\tdata[\"phone\"] = \"18816209310\"\r\n\tdata[\"sex\"] = 1\r\n\tdata[\"roleId\"] = 1\r\n\tcanAdd := models.AddUser(data)\r\n\tfmt.Println(canAdd)\r\n\t//列出所有的用户\r\n\tvar users []models.User\r\n\tusers = models.ListUsers()\r\n\tfor _, user := range users {\r\n\t\tfmt.Println(user)\r\n\t}\r\n}\r\n\r\nfunc TestMlmet(t *testing.T) {\r\n\tmlmets := models.ListMlmets()\r\n\tfmt.Println(len(mlmets))\r\n\tfor i, mlmet := range mlmets {\r\n\t\tfmt.Println(i)\r\n\t\tfmt.Println(mlmet)\r\n\t}\r\n\tfmt.Println(mlmets)\r\n}\r\n\r\nfunc TestMlout(t *testing.T) {\r\n\tmlouts := models.ListMloutsBetweenInterval(\"24\")\r\n\tfmt.Println(mlouts)\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- test/db_test.go	(revision dc99758f53f059cc44da805bf3b592078587c2b6)
++++ test/db_test.go	(date 1611109374755)
+@@ -46,3 +46,30 @@
+ 	mlouts := models.ListMloutsBetweenInterval("24")
+ 	fmt.Println(mlouts)
+ }
++
++func TestListPosition(t *testing.T) {
++	positions := models.ListPostions()
++	fmt.Println(positions)
++	fmt.Println(len(positions))
++	for _, str := range positions {
++		switch str {
++			case positions[0]:
++				fmt.Println(positions)
++				break;
++			default:
++				fmt.Println("1")
++		}
++	}
++}
++
++func TestMloutTypeList(t *testing.T) {
++	mloutTypes := models.ListMloutTypesBetweenInterval("2")
++	for i := 0; i < len(mloutTypes); i++ {
++		fmt.Println(mloutTypes[i])
++	}
++}
++
++func TestSubstancesList(t *testing.T) {
++	substances := models.ListSubstances()
++	fmt.Println(substances)
++}
+\ No newline at end of file
+Index: models/mlout.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package models\r\n\r\nimport (\r\n\t\"strings\"\r\n\t\"time\"\r\n)\r\n\r\ntype Mlout struct {\r\n\tId              int64 `gorm:\"primary key;AUTO_INCREMENT\"`\r\n\tTimePoint       time.Time\r\n\tStationName     string `gorm:\"type:varchar(50)\"`\r\n\tSubstance       string `gorm:\"type:varchar(50)\"`\r\n\tPredictionValue float32\r\n}\r\n\r\nfunc ListMlouts(beginTimePoint string, hour string, substance string) []Mlout {\r\n\r\n\tconst base_format = \"2006-01-02 15:04:05\"\r\n\tbeginTime, _ := time.Parse(base_format, beginTimePoint)\r\n\tinterval := hour + \"h\"\r\n\tduration, _ := time.ParseDuration(interval)\r\n\tendTime := beginTime.Add(duration)\r\n\tendTimePoint := endTime.Format(base_format)\r\n\tvar mlouts []Mlout\r\n\r\n\tdb.Where(\"time_point >= ? AND time_point <= ? AND substance = ?\", beginTimePoint, endTimePoint, substance).Find(&mlouts)\r\n\treturn mlouts\r\n}\r\n\r\nfunc ListMloutsBetweenInterval(interval string) []Mlout {\r\n\r\n\tnt := time.Now()\r\n\tconst base_format = \"2006-01-02 15:04:05\"\r\n\tstr_time := nt.Format(base_format)\r\n\tstr_time = strings.Split(str_time, \":\")[0] + \":00:00\"\r\n\tbegin_time, _ := time.Parse(base_format, str_time)\r\n\tinterval = interval + \"h\"\r\n\tduration, _ := time.ParseDuration(interval)\r\n\tend_time := begin_time.Add(duration)\r\n\tendTimePoint := end_time.Format(base_format)\r\n\r\n\tvar mlouts []Mlout\r\n\tdb.Where(\"time_point >= ? AND time_point <= ?\", str_time, endTimePoint).Find(&mlouts)\r\n\treturn mlouts\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- models/mlout.go	(revision dc99758f53f059cc44da805bf3b592078587c2b6)
++++ models/mlout.go	(date 1611111682946)
+@@ -1,7 +1,9 @@
+ package models
+ 
+ import (
++	"fmt"
+ 	"strings"
++	"task5/pkg/util"
+ 	"time"
+ )
+ 
+@@ -13,6 +15,18 @@
+ 	PredictionValue float32
+ }
+ 
++type MloutRocket struct {
++	TimePoint string `json:"time_point"`
++	PredictionValue string `json:"prediction_value"`
++}
++//用于发送到rocket mq数据格式定义
++type MloutType struct {
++	StationName string `json:"station_name"`
++	Substance string `json:"substance"`
++	St int   `json:"st"`    //O3, pm2.5 : 22   湖带 ：32  
++	PredictionValues [] MloutRocket   `json:"prediction_values"`// 保存切片
++}
++
+ func ListMlouts(beginTimePoint string, hour string, substance string) []Mlout {
+ 
+ 	const base_format = "2006-01-02 15:04:05"
+@@ -27,6 +41,28 @@
+ 	return mlouts
+ }
+ 
++func ListPostions () []string {
++	util.DaoLog.Info("进行地址查询")
++	var mlouts [] Mlout
++	db.Select("distinct(station_name)").Find(&mlouts)
++	var positions [] string
++	for _, mlout := range(mlouts) {
++		positions = append(positions, mlout.StationName)
++	}
++	return positions
++}
++
++func ListSubstances () []string {
++	util.DaoLog.Info("进行污染物查询")
++	var mlouts [] Mlout
++	db.Select("distinct(substance)").Find(&mlouts)
++	var substances [] string
++	for _, mlout := range(mlouts) {
++		substances = append(substances, mlout.Substance)
++	}
++	return substances
++}
++
+ func ListMloutsBetweenInterval(interval string) []Mlout {
+ 
+ 	nt := time.Now()
+@@ -43,3 +79,45 @@
+ 	db.Where("time_point >= ? AND time_point <= ?", str_time, endTimePoint).Find(&mlouts)
+ 	return mlouts
+ }
++
++
++func ListMloutTypesBetweenInterval(interval string) []MloutType{
++	//返回所有的地点, 污染物以及预测的值
++	positions := ListPostions()
++	substances := ListSubstances()
++
++	mlouts := ListMloutsBetweenInterval(interval)
++
++	mloutTypes := make([]MloutType, len(positions) * len(substances))
++	strs := make([] string, len(positions) * len(substances)) // map的key
++	posSubMap := make(map[string] int) //映射map
++
++	index := 0
++	for i := 0; i < len(positions); i++ {
++		for j :=0; j < len(substances); j++ {
++			strs[index] = positions[i] + substances[j]
++			index++
++		}
++	}
++
++	//将station_name 和 substance连接作为key， index作为value来做映射map，例如 无锡O3: 0, 无锡PM25: 1...
++	for i := 0; i < len(strs); i++ {
++		posSubMap[strs[i]] = i
++	}
++
++	var timeLayoutStr = "2006-01-02 15:04:05"
++
++	for i := 0; i < len(mlouts); i++ {
++
++		mapKey := mlouts[i].StationName + mlouts[i].Substance   // 构造key
++
++		mloutTypes[posSubMap[mapKey]].StationName = mlouts[i].StationName
++		mloutTypes[posSubMap[mapKey]].Substance = mlouts[i].Substance
++		mloutTypes[posSubMap[mapKey]].St = 22
++		// 列表赋值
++		mloutTypes[posSubMap[mapKey]].PredictionValues = append(mloutTypes[posSubMap[mapKey]].PredictionValues,
++			MloutRocket{TimePoint:  mlouts[i].TimePoint.Format(timeLayoutStr),
++				PredictionValue: fmt.Sprintf("%.2f", mlouts[i].PredictionValue)})
++	}
++	return mloutTypes
++}
+Index: routers/go_python_page.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package routers\r\n\r\nimport (\r\n\t\"encoding/json\"\r\n\t\"github.com/gin-gonic/gin\"\r\n\t\"net/http\"\r\n\t\"task5/models\"\r\n\t\"task5/pkg/util\"\r\n)\r\n\r\n//初始化rocket\r\nfunc init() {\r\n\tutil.StartRocketMQ()\r\n}\r\n\r\nfunc goPythonPost(c *gin.Context) {\r\n\t//获取查询的timePoint(起始时间), hour(持续时长), serviceType(预测物)\r\n\thasDone := c.PostForm(\"hasDone\")\r\n\tutil.PageLog.Info(\"python端的数据抓取和模型计算完毕，开始生产消息\" + hasDone)\r\n\r\n\tc.JSON(http.StatusBadRequest, gin.H{\r\n\t\t\"msg\":  \"接受消息成功！\",\r\n\t\t\"code\": http.StatusOK,\r\n\t})\r\n\r\n\t/*\r\n\t\tmlmets := models.ListMlmets()\r\n\t\tutil.RocketLog.Info(\"将消息发送给rocket\")\r\n\t\tfor _, mlmet := range(mlmets) {\r\n\t\t\tdata, _ := json.Marshal(&mlmet)\r\n\t\t\tutil.SendMessageToRocketChan(data, 1,\"test\")\r\n\t\t}*/\r\n\t//将预测数据发送给rocket mq\r\n\tmlouts := models.ListMloutsBetweenInterval(\"24\")\r\n\tutil.RocketLog.Info(\"将消息发送给rocket\")\r\n\tfor _, mlout := range mlouts {\r\n\t\tdata, _ := json.Marshal(&mlout)\r\n\t\tutil.SendMessageToRocketChan(data, 1, \"test\")\r\n\t}\r\n\t//消息发送完毕\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- routers/go_python_page.go	(revision dc99758f53f059cc44da805bf3b592078587c2b6)
++++ routers/go_python_page.go	(date 1611047283642)
+@@ -2,6 +2,7 @@
+ 
+ import (
+ 	"encoding/json"
++	"fmt"
+ 	"github.com/gin-gonic/gin"
+ 	"net/http"
+ 	"task5/models"
+@@ -23,18 +24,13 @@
+ 		"code": http.StatusOK,
+ 	})
+ 
+-	/*
+-		mlmets := models.ListMlmets()
+-		util.RocketLog.Info("将消息发送给rocket")
+-		for _, mlmet := range(mlmets) {
+-			data, _ := json.Marshal(&mlmet)
+-			util.SendMessageToRocketChan(data, 1,"test")
+-		}*/
+ 	//将预测数据发送给rocket mq
+-	mlouts := models.ListMloutsBetweenInterval("24")
++	//mlouts := models.ListMloutsBetweenInterval("24")
++	mloutTypes := models.ListMloutTypesBetweenInterval("24")
++	fmt.Println(mloutTypes)
+ 	util.RocketLog.Info("将消息发送给rocket")
+-	for _, mlout := range mlouts {
+-		data, _ := json.Marshal(&mlout)
++	for _, mloutType := range mloutTypes {
++		data, _ := json.Marshal(&mloutType)
+ 		util.SendMessageToRocketChan(data, 1, "test")
+ 	}
+ 	//消息发送完毕
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"92e521af-1932-4225-abb0-b6c19c60994e\" name=\"Default Changelist\" comment=\"this is my first commit\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"HTML File\" />\r\n        <option value=\"Go File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"GOROOT\" path=\"C:\\Go\" />\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GoLibraries\">\r\n    <option name=\"indexEntireGoPath\" value=\"false\" />\r\n  </component>\r\n  <component name=\"HighlightingSettingsPerFile\">\r\n    <setting file=\"file://$PROJECT_DIR$/models/model.go\" root0=\"FORCE_HIGHLIGHTING\" />\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"1ldkTYQ0U43jGplI6ZnZoZo2Mdt\" />\r\n  <component name=\"ProjectLevelVcsManager\" settingsEditedManually=\"true\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"DefaultGoTemplateProperty\" value=\"Go File\" />\r\n    <property name=\"DefaultHtmlFileTemplate\" value=\"HTML File\" />\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"configurable.Global.GOPATH.is.expanded\" value=\"true\" />\r\n    <property name=\"configurable.Module.GOPATH.is.expanded\" value=\"true\" />\r\n    <property name=\"configurable.Project.GOPATH.is.expanded\" value=\"true\" />\r\n    <property name=\"go.import.settings.migrated\" value=\"true\" />\r\n    <property name=\"go.sdk.automatically.set\" value=\"true\" />\r\n    <property name=\"go.tried.to.enable.integration.vgo.integrator\" value=\"true\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/../task2\" />\r\n    <property name=\"node.js.detected.package.eslint\" value=\"true\" />\r\n    <property name=\"node.js.detected.package.tslint\" value=\"true\" />\r\n    <property name=\"node.js.path.for.package.eslint\" value=\"project\" />\r\n    <property name=\"node.js.path.for.package.tslint\" value=\"project\" />\r\n    <property name=\"node.js.selected.package.eslint\" value=\"(autodetect)\" />\r\n    <property name=\"node.js.selected.package.tslint\" value=\"(autodetect)\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"vcs.Git\" />\r\n  </component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"D:\\go_projects\\task5\\middleware\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Docker.docker-test2\">\r\n    <configuration name=\"go build linux\" type=\"GoApplicationRunConfiguration\" factoryName=\"Go Application\">\r\n      <module name=\"task5\" />\r\n      <working_directory value=\"$PROJECT_DIR$\" />\r\n      <go_parameters value=\"-i\" />\r\n      <envs>\r\n        <env name=\"GOOS\" value=\"linux\" />\r\n      </envs>\r\n      <kind value=\"DIRECTORY\" />\r\n      <filePath value=\"$PROJECT_DIR$\" />\r\n      <package value=\"task5\" />\r\n      <directory value=\"$PROJECT_DIR$\" />\r\n      <output_directory value=\"$PROJECT_DIR$\" />\r\n      <option name=\"run\" value=\"false\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"go build task5\" type=\"GoApplicationRunConfiguration\" factoryName=\"Go Application\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"task5\" />\r\n      <working_directory value=\"$PROJECT_DIR$\" />\r\n      <kind value=\"PACKAGE\" />\r\n      <filePath value=\"$PROJECT_DIR$/main.go\" />\r\n      <package value=\"task5\" />\r\n      <directory value=\"$PROJECT_DIR$\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"TestCurrentTimeToStr in task5/test\" type=\"GoTestRunConfiguration\" factoryName=\"Go Test\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"task5\" />\r\n      <working_directory value=\"$PROJECT_DIR$/test\" />\r\n      <framework value=\"gotest\" />\r\n      <kind value=\"PACKAGE\" />\r\n      <package value=\"task5/test\" />\r\n      <directory value=\"$PROJECT_DIR$\" />\r\n      <filePath value=\"$PROJECT_DIR$\" />\r\n      <pattern value=\"^\\QTestCurrentTimeToStr\\E$\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"TestMlout in task5/test (1)\" type=\"GoTestRunConfiguration\" factoryName=\"Go Test\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"task5\" />\r\n      <working_directory value=\"$PROJECT_DIR$/test\" />\r\n      <framework value=\"gotest\" />\r\n      <kind value=\"PACKAGE\" />\r\n      <package value=\"task5/test\" />\r\n      <directory value=\"$PROJECT_DIR$\" />\r\n      <filePath value=\"$PROJECT_DIR$\" />\r\n      <pattern value=\"^\\QTestMlout\\E$\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"TestMlout in task5/test\" type=\"GoTestRunConfiguration\" factoryName=\"Go Test\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"task5\" />\r\n      <working_directory value=\"$PROJECT_DIR$/test\" />\r\n      <framework value=\"gotest\" />\r\n      <kind value=\"PACKAGE\" />\r\n      <package value=\"task5/test\" />\r\n      <directory value=\"$PROJECT_DIR$\" />\r\n      <filePath value=\"$PROJECT_DIR$\" />\r\n      <pattern value=\"^\\QTestMlout\\E$\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"TestTimeToStr in task5/test\" type=\"GoTestRunConfiguration\" factoryName=\"Go Test\" temporary=\"true\" nameIsGenerated=\"true\">\r\n      <module name=\"task5\" />\r\n      <working_directory value=\"$PROJECT_DIR$/test\" />\r\n      <framework value=\"gotest\" />\r\n      <kind value=\"PACKAGE\" />\r\n      <package value=\"task5/test\" />\r\n      <directory value=\"$PROJECT_DIR$\" />\r\n      <filePath value=\"$PROJECT_DIR$\" />\r\n      <pattern value=\"^\\QTestTimeToStr\\E$\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"Dockerfile\" type=\"docker-deploy\" factoryName=\"dockerfile\" server-name=\"Docker2\">\r\n      <deployment type=\"dockerfile\">\r\n        <settings>\r\n          <option name=\"imageTag\" value=\"hz:2.0\" />\r\n          <option name=\"buildCliOptions\" value=\"\" />\r\n          <option name=\"command\" value=\"\" />\r\n          <option name=\"containerName\" value=\"hz_test\" />\r\n          <option name=\"entrypoint\" value=\"\" />\r\n          <option name=\"portBindings\">\r\n            <list>\r\n              <DockerPortBindingImpl>\r\n                <option name=\"containerPort\" value=\"8088\" />\r\n                <option name=\"hostPort\" value=\"8098\" />\r\n              </DockerPortBindingImpl>\r\n            </list>\r\n          </option>\r\n          <option name=\"commandLineOptions\" value=\"\" />\r\n          <option name=\"sourceFilePath\" value=\"Dockerfile\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\">\r\n        <option name=\"RunConfigurationTask\" enabled=\"true\" run_configuration_name=\"go build linux\" run_configuration_type=\"GoApplicationRunConfiguration\" />\r\n      </method>\r\n    </configuration>\r\n    <configuration name=\"docker-test\" type=\"docker-deploy\" factoryName=\"dockerfile\" server-name=\"Docker\">\r\n      <deployment type=\"dockerfile\">\r\n        <settings>\r\n          <option name=\"imageTag\" value=\"hz/test:1.0\" />\r\n          <option name=\"buildCliOptions\" value=\"\" />\r\n          <option name=\"command\" value=\"\" />\r\n          <option name=\"containerName\" value=\"my_test\" />\r\n          <option name=\"entrypoint\" value=\"\" />\r\n          <option name=\"portBindings\">\r\n            <list>\r\n              <DockerPortBindingImpl>\r\n                <option name=\"containerPort\" value=\"8088\" />\r\n                <option name=\"hostPort\" value=\"8098\" />\r\n              </DockerPortBindingImpl>\r\n            </list>\r\n          </option>\r\n          <option name=\"commandLineOptions\" value=\"\" />\r\n          <option name=\"sourceFilePath\" value=\"Dockerfile\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"docker-test2\" type=\"docker-deploy\" factoryName=\"dockerfile\" server-name=\"Docker2\">\r\n      <deployment type=\"dockerfile\">\r\n        <settings>\r\n          <option name=\"imageTag\" value=\"hz/test:1.0\" />\r\n          <option name=\"buildCliOptions\" value=\"\" />\r\n          <option name=\"command\" value=\"\" />\r\n          <option name=\"containerName\" value=\"my_test\" />\r\n          <option name=\"entrypoint\" value=\"\" />\r\n          <option name=\"portBindings\">\r\n            <list>\r\n              <DockerPortBindingImpl>\r\n                <option name=\"containerPort\" value=\"8088\" />\r\n                <option name=\"hostPort\" value=\"8098\" />\r\n              </DockerPortBindingImpl>\r\n            </list>\r\n          </option>\r\n          <option name=\"commandLineOptions\" value=\"\" />\r\n          <option name=\"sourceFilePath\" value=\"Dockerfile\" />\r\n        </settings>\r\n      </deployment>\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Docker.Dockerfile\" />\r\n      <item itemvalue=\"Docker.docker-test\" />\r\n      <item itemvalue=\"Docker.docker-test2\" />\r\n      <item itemvalue=\"Go Build.go build linux\" />\r\n      <item itemvalue=\"Go Build.go build task5\" />\r\n      <item itemvalue=\"Go Test.TestTimeToStr in task5/test\" />\r\n      <item itemvalue=\"Go Test.TestCurrentTimeToStr in task5/test\" />\r\n      <item itemvalue=\"Go Test.TestMlout in task5/test\" />\r\n      <item itemvalue=\"Go Test.TestMlout in task5/test (1)\" />\r\n    </list>\r\n    <recent_temporary>\r\n      <list>\r\n        <item itemvalue=\"Go Build.go build task5\" />\r\n        <item itemvalue=\"Go Test.TestMlout in task5/test (1)\" />\r\n        <item itemvalue=\"Go Test.TestMlout in task5/test\" />\r\n        <item itemvalue=\"Go Test.TestCurrentTimeToStr in task5/test\" />\r\n        <item itemvalue=\"Go Test.TestTimeToStr in task5/test\" />\r\n      </list>\r\n    </recent_temporary>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"this is my first commit\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"this is my first commit\" />\r\n  </component>\r\n  <component name=\"VgoProject\">\r\n    <integration-enabled>true</integration-enabled>\r\n  </component>\r\n  <component name=\"WindowStateProjectService\">\r\n    <state x=\"65\" y=\"0\" key=\"#Docker\" timestamp=\"1610690665188\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"65\" y=\"0\" key=\"#Docker/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610690665188\" />\r\n    <state x=\"679\" y=\"30\" width=\"467\" height=\"650\" key=\"#Menus_and_Toolbars\" timestamp=\"1610696551581\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"679\" y=\"30\" width=\"467\" height=\"650\" key=\"#Menus_and_Toolbars/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610696551581\" />\r\n    <state x=\"483\" y=\"191\" key=\"#Port_bindings\" timestamp=\"1610691765982\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"483\" y=\"191\" key=\"#Port_bindings/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610691765982\" />\r\n    <state x=\"25\" y=\"0\" width=\"1097\" height=\"675\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog\" timestamp=\"1610694920200\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"25\" y=\"0\" width=\"1097\" height=\"675\" key=\"#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610694920200\" />\r\n    <state x=\"345\" y=\"124\" key=\"#com.intellij.fileTypes.FileTypeChooser\" timestamp=\"1610351650371\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"345\" y=\"124\" key=\"#com.intellij.fileTypes.FileTypeChooser/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610351650371\" />\r\n    <state x=\"368\" y=\"37\" key=\"FileChooserDialogImpl\" timestamp=\"1610528662333\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"368\" y=\"37\" key=\"FileChooserDialogImpl/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610528662333\" />\r\n    <state x=\"368\" y=\"37\" key=\"FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@0.0.1280.680\" timestamp=\"1609382447163\" />\r\n    <state x=\"368\" y=\"37\" key=\"FileChooserDialogImpl/0.0.1280.680@0.0.1280.680\" timestamp=\"1609079993917\" />\r\n    <state width=\"1227\" height=\"198\" key=\"GridCell.Tab.0.bottom\" timestamp=\"1610691264600\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state width=\"1867\" height=\"632\" key=\"GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040\" timestamp=\"1610075526356\" />\r\n    <state width=\"1227\" height=\"198\" key=\"GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610691264600\" />\r\n    <state width=\"1227\" height=\"125\" key=\"GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@0.0.1280.680\" timestamp=\"1609389793436\" />\r\n    <state width=\"1867\" height=\"498\" key=\"GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040\" timestamp=\"1609405439327\" />\r\n    <state width=\"1227\" height=\"83\" key=\"GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680\" timestamp=\"1610031391513\" />\r\n    <state width=\"1227\" height=\"198\" key=\"GridCell.Tab.0.center\" timestamp=\"1610691264599\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state width=\"1867\" height=\"632\" key=\"GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040\" timestamp=\"1610075526356\" />\r\n    <state width=\"1227\" height=\"198\" key=\"GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610691264599\" />\r\n    <state width=\"1227\" height=\"125\" key=\"GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@0.0.1280.680\" timestamp=\"1609389793436\" />\r\n    <state width=\"1867\" height=\"498\" key=\"GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040\" timestamp=\"1609405439326\" />\r\n    <state width=\"1227\" height=\"83\" key=\"GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680\" timestamp=\"1610031391513\" />\r\n    <state width=\"1227\" height=\"198\" key=\"GridCell.Tab.0.left\" timestamp=\"1610691264599\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state width=\"1867\" height=\"632\" key=\"GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040\" timestamp=\"1610075526356\" />\r\n    <state width=\"1227\" height=\"198\" key=\"GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610691264599\" />\r\n    <state width=\"1227\" height=\"125\" key=\"GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@0.0.1280.680\" timestamp=\"1609389793436\" />\r\n    <state width=\"1867\" height=\"498\" key=\"GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040\" timestamp=\"1609405439326\" />\r\n    <state width=\"1227\" height=\"83\" key=\"GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680\" timestamp=\"1610031391513\" />\r\n    <state width=\"1227\" height=\"198\" key=\"GridCell.Tab.0.right\" timestamp=\"1610691264599\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state width=\"1867\" height=\"632\" key=\"GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040\" timestamp=\"1610075526356\" />\r\n    <state width=\"1227\" height=\"198\" key=\"GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610691264599\" />\r\n    <state width=\"1227\" height=\"125\" key=\"GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@0.0.1280.680\" timestamp=\"1609389793436\" />\r\n    <state width=\"1867\" height=\"498\" key=\"GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040\" timestamp=\"1609405439326\" />\r\n    <state width=\"1227\" height=\"83\" key=\"GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680\" timestamp=\"1610031391513\" />\r\n    <state width=\"1227\" height=\"35\" key=\"GridCell.Tab.1.bottom\" timestamp=\"1610616746536\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state width=\"1227\" height=\"35\" key=\"GridCell.Tab.1.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610616746536\" />\r\n    <state width=\"731\" height=\"264\" key=\"GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680\" timestamp=\"1608277293019\" />\r\n    <state width=\"1227\" height=\"35\" key=\"GridCell.Tab.1.center\" timestamp=\"1610616746536\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state width=\"1227\" height=\"35\" key=\"GridCell.Tab.1.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610616746536\" />\r\n    <state width=\"731\" height=\"264\" key=\"GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680\" timestamp=\"1608277293019\" />\r\n    <state width=\"1227\" height=\"35\" key=\"GridCell.Tab.1.left\" timestamp=\"1610616746535\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state width=\"1227\" height=\"35\" key=\"GridCell.Tab.1.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610616746535\" />\r\n    <state width=\"731\" height=\"264\" key=\"GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680\" timestamp=\"1608277293019\" />\r\n    <state width=\"1227\" height=\"35\" key=\"GridCell.Tab.1.right\" timestamp=\"1610616746536\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state width=\"1227\" height=\"35\" key=\"GridCell.Tab.1.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610616746536\" />\r\n    <state width=\"731\" height=\"264\" key=\"GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680\" timestamp=\"1608277293019\" />\r\n    <state x=\"10\" y=\"0\" key=\"SettingsEditor\" timestamp=\"1610695603133\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"10\" y=\"0\" key=\"SettingsEditor/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610695603133\" />\r\n    <state x=\"25\" y=\"0\" key=\"SettingsEditor/0.0.1280.680/1920.0.1920.1040@0.0.1280.680\" timestamp=\"1609382610094\" />\r\n    <state x=\"133\" y=\"9\" key=\"Vcs.Push.Dialog.v2\" timestamp=\"1610697827997\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"133\" y=\"9\" key=\"Vcs.Push.Dialog.v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610697827997\" />\r\n    <state x=\"353\" y=\"285\" width=\"581\" height=\"259\" key=\"com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize\" timestamp=\"1610694919049\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"353\" y=\"285\" width=\"581\" height=\"259\" key=\"com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610694919049\" />\r\n    <state x=\"413\" y=\"236\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2\" timestamp=\"1610698166214\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"413\" y=\"236\" key=\"com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610698166214\" />\r\n    <state x=\"219\" y=\"-1\" width=\"840\" height=\"1034\" key=\"search.everywhere.popup\" timestamp=\"1610675712808\">\r\n      <screen x=\"0\" y=\"0\" width=\"1280\" height=\"680\" />\r\n    </state>\r\n    <state x=\"219\" y=\"-1\" width=\"840\" height=\"1034\" key=\"search.everywhere.popup/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680\" timestamp=\"1610675712808\" />\r\n  </component>\r\n  <component name=\"XDebuggerManager\">\r\n    <watches-manager>\r\n      <configuration name=\"GoApplicationRunConfiguration\">\r\n        <watch expression=\"db\" language=\"go\" />\r\n      </configuration>\r\n    </watches-manager>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/workspace.xml	(revision dc99758f53f059cc44da805bf3b592078587c2b6)
++++ .idea/workspace.xml	(date 1611112213902)
+@@ -4,8 +4,14 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="92e521af-1932-4225-abb0-b6c19c60994e" name="Default Changelist" comment="this is my first commit">
++    <list default="true" id="92e521af-1932-4225-abb0-b6c19c60994e" name="Default Changelist" comment="this is my second commit">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/main.go" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/models/mlmet.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/mlmet.go" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/models/mlout.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/mlout.go" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/routers/go_python_page.go" beforeDir="false" afterPath="$PROJECT_DIR$/routers/go_python_page.go" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/test/db_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/db_test.go" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/test/rocket_test.go" beforeDir="false" afterPath="$PROJECT_DIR$/test/rocket_test.go" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -61,7 +67,7 @@
+       <recent name="D:\go_projects\task5\middleware" />
+     </key>
+   </component>
+-  <component name="RunManager" selected="Docker.docker-test2">
++  <component name="RunManager" selected="Go Build.go build task5">
+     <configuration name="go build linux" type="GoApplicationRunConfiguration" factoryName="Go Application">
+       <module name="task5" />
+       <working_directory value="$PROJECT_DIR$" />
+@@ -86,7 +92,7 @@
+       <directory value="$PROJECT_DIR$" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="TestCurrentTimeToStr in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
++    <configuration name="TestMloutTypeList in task5/test (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+       <module name="task5" />
+       <working_directory value="$PROJECT_DIR$/test" />
+       <framework value="gotest" />
+@@ -94,10 +100,10 @@
+       <package value="task5/test" />
+       <directory value="$PROJECT_DIR$" />
+       <filePath value="$PROJECT_DIR$" />
+-      <pattern value="^\QTestCurrentTimeToStr\E$" />
++      <pattern value="^\QTestMloutTypeList\E$" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="TestMlout in task5/test (1)" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
++    <configuration name="TestMloutTypeList in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+       <module name="task5" />
+       <working_directory value="$PROJECT_DIR$/test" />
+       <framework value="gotest" />
+@@ -105,10 +111,10 @@
+       <package value="task5/test" />
+       <directory value="$PROJECT_DIR$" />
+       <filePath value="$PROJECT_DIR$" />
+-      <pattern value="^\QTestMlout\E$" />
++      <pattern value="^\QTestMloutTypeList\E$" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="TestMlout in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
++    <configuration name="TestRocketFormat in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+       <module name="task5" />
+       <working_directory value="$PROJECT_DIR$/test" />
+       <framework value="gotest" />
+@@ -116,10 +122,10 @@
+       <package value="task5/test" />
+       <directory value="$PROJECT_DIR$" />
+       <filePath value="$PROJECT_DIR$" />
+-      <pattern value="^\QTestMlout\E$" />
++      <pattern value="^\QTestRocketFormat\E$" />
+       <method v="2" />
+     </configuration>
+-    <configuration name="TestTimeToStr in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
++    <configuration name="TestSubstancesList in task5/test" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+       <module name="task5" />
+       <working_directory value="$PROJECT_DIR$/test" />
+       <framework value="gotest" />
+@@ -127,7 +133,7 @@
+       <package value="task5/test" />
+       <directory value="$PROJECT_DIR$" />
+       <filePath value="$PROJECT_DIR$" />
+-      <pattern value="^\QTestTimeToStr\E$" />
++      <pattern value="^\QTestSubstancesList\E$" />
+       <method v="2" />
+     </configuration>
+     <configuration name="Dockerfile" type="docker-deploy" factoryName="dockerfile" server-name="Docker2">
+@@ -204,18 +210,18 @@
+       <item itemvalue="Docker.docker-test2" />
+       <item itemvalue="Go Build.go build linux" />
+       <item itemvalue="Go Build.go build task5" />
+-      <item itemvalue="Go Test.TestTimeToStr in task5/test" />
+-      <item itemvalue="Go Test.TestCurrentTimeToStr in task5/test" />
+-      <item itemvalue="Go Test.TestMlout in task5/test" />
+-      <item itemvalue="Go Test.TestMlout in task5/test (1)" />
++      <item itemvalue="Go Test.TestRocketFormat in task5/test" />
++      <item itemvalue="Go Test.TestMloutTypeList in task5/test" />
++      <item itemvalue="Go Test.TestSubstancesList in task5/test" />
++      <item itemvalue="Go Test.TestMloutTypeList in task5/test (1)" />
+     </list>
+     <recent_temporary>
+       <list>
+         <item itemvalue="Go Build.go build task5" />
+-        <item itemvalue="Go Test.TestMlout in task5/test (1)" />
+-        <item itemvalue="Go Test.TestMlout in task5/test" />
+-        <item itemvalue="Go Test.TestCurrentTimeToStr in task5/test" />
+-        <item itemvalue="Go Test.TestTimeToStr in task5/test" />
++        <item itemvalue="Go Test.TestMloutTypeList in task5/test (1)" />
++        <item itemvalue="Go Test.TestSubstancesList in task5/test" />
++        <item itemvalue="Go Test.TestMloutTypeList in task5/test" />
++        <item itemvalue="Go Test.TestRocketFormat in task5/test" />
+       </list>
+     </recent_temporary>
+   </component>
+@@ -225,7 +231,8 @@
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="this is my first commit" />
+-    <option name="LAST_COMMIT_MESSAGE" value="this is my first commit" />
++    <MESSAGE value="this is my second commit" />
++    <option name="LAST_COMMIT_MESSAGE" value="this is my second commit" />
+   </component>
+   <component name="VgoProject">
+     <integration-enabled>true</integration-enabled>
+@@ -257,79 +264,83 @@
+     <state x="368" y="37" key="FileChooserDialogImpl/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610528662333" />
+     <state x="368" y="37" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609382447163" />
+     <state x="368" y="37" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1609079993917" />
+-    <state width="1227" height="198" key="GridCell.Tab.0.bottom" timestamp="1610691264600">
++    <state width="1227" height="352" key="GridCell.Tab.0.bottom" timestamp="1611111841977">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state width="1867" height="632" key="GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610075526356" />
+-    <state width="1227" height="198" key="GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691264600" />
++    <state width="1487" height="234" key="GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610958485017" />
++    <state width="1227" height="352" key="GridCell.Tab.0.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611111841977" />
+     <state width="1227" height="125" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609389793436" />
+     <state width="1867" height="498" key="GridCell.Tab.0.bottom/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1609405439327" />
+     <state width="1227" height="83" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1610031391513" />
+-    <state width="1227" height="198" key="GridCell.Tab.0.center" timestamp="1610691264599">
++    <state width="1227" height="352" key="GridCell.Tab.0.center" timestamp="1611111841977">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state width="1867" height="632" key="GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610075526356" />
+-    <state width="1227" height="198" key="GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691264599" />
++    <state width="1487" height="234" key="GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610958485017" />
++    <state width="1227" height="352" key="GridCell.Tab.0.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611111841977" />
+     <state width="1227" height="125" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609389793436" />
+     <state width="1867" height="498" key="GridCell.Tab.0.center/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1609405439326" />
+     <state width="1227" height="83" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1610031391513" />
+-    <state width="1227" height="198" key="GridCell.Tab.0.left" timestamp="1610691264599">
++    <state width="1227" height="352" key="GridCell.Tab.0.left" timestamp="1611111841976">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state width="1867" height="632" key="GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610075526356" />
+-    <state width="1227" height="198" key="GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691264599" />
++    <state width="1487" height="234" key="GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610958485017" />
++    <state width="1227" height="352" key="GridCell.Tab.0.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611111841976" />
+     <state width="1227" height="125" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609389793436" />
+     <state width="1867" height="498" key="GridCell.Tab.0.left/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1609405439326" />
+     <state width="1227" height="83" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1610031391513" />
+-    <state width="1227" height="198" key="GridCell.Tab.0.right" timestamp="1610691264599">
++    <state width="1227" height="352" key="GridCell.Tab.0.right" timestamp="1611111841977">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state width="1867" height="632" key="GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610075526356" />
+-    <state width="1227" height="198" key="GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610691264599" />
++    <state width="1487" height="234" key="GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@-1920.0.1920.1040" timestamp="1610958485017" />
++    <state width="1227" height="352" key="GridCell.Tab.0.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611111841977" />
+     <state width="1227" height="125" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609389793436" />
+     <state width="1867" height="498" key="GridCell.Tab.0.right/0.0.1280.680/1920.0.1920.1040@1920.0.1920.1040" timestamp="1609405439326" />
+     <state width="1227" height="83" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1610031391513" />
+-    <state width="1227" height="35" key="GridCell.Tab.1.bottom" timestamp="1610616746536">
++    <state width="1227" height="260" key="GridCell.Tab.1.bottom" timestamp="1611049410537">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state width="1227" height="35" key="GridCell.Tab.1.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610616746536" />
++    <state width="1227" height="260" key="GridCell.Tab.1.bottom/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611049410537" />
+     <state width="731" height="264" key="GridCell.Tab.1.bottom/0.0.1280.680@0.0.1280.680" timestamp="1608277293019" />
+-    <state width="1227" height="35" key="GridCell.Tab.1.center" timestamp="1610616746536">
++    <state width="1227" height="260" key="GridCell.Tab.1.center" timestamp="1611049410537">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state width="1227" height="35" key="GridCell.Tab.1.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610616746536" />
++    <state width="1227" height="260" key="GridCell.Tab.1.center/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611049410537" />
+     <state width="731" height="264" key="GridCell.Tab.1.center/0.0.1280.680@0.0.1280.680" timestamp="1608277293019" />
+-    <state width="1227" height="35" key="GridCell.Tab.1.left" timestamp="1610616746535">
++    <state width="1227" height="260" key="GridCell.Tab.1.left" timestamp="1611049410537">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state width="1227" height="35" key="GridCell.Tab.1.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610616746535" />
++    <state width="1227" height="260" key="GridCell.Tab.1.left/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611049410537" />
+     <state width="731" height="264" key="GridCell.Tab.1.left/0.0.1280.680@0.0.1280.680" timestamp="1608277293019" />
+-    <state width="1227" height="35" key="GridCell.Tab.1.right" timestamp="1610616746536">
++    <state width="1227" height="260" key="GridCell.Tab.1.right" timestamp="1611049410537">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state width="1227" height="35" key="GridCell.Tab.1.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610616746536" />
++    <state width="1227" height="260" key="GridCell.Tab.1.right/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611049410537" />
+     <state width="731" height="264" key="GridCell.Tab.1.right/0.0.1280.680@0.0.1280.680" timestamp="1608277293019" />
+-    <state x="10" y="0" key="SettingsEditor" timestamp="1610695603133">
++    <state x="10" y="0" key="SettingsEditor" timestamp="1610701039926">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state x="10" y="0" key="SettingsEditor/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610695603133" />
++    <state x="10" y="0" key="SettingsEditor/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610701039926" />
+     <state x="25" y="0" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1609382610094" />
+-    <state x="133" y="9" key="Vcs.Push.Dialog.v2" timestamp="1610697827997">
++    <state x="133" y="9" key="Vcs.Push.Dialog.v2" timestamp="1610702054473">
++      <screen x="0" y="0" width="1280" height="680" />
++    </state>
++    <state x="133" y="9" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610702054473" />
++    <state width="647" height="347" key="XDebugger.FullValuePopup" timestamp="1611048243893">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state x="133" y="9" key="Vcs.Push.Dialog.v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610697827997" />
++    <state width="647" height="347" key="XDebugger.FullValuePopup/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611048243893" />
+     <state x="353" y="285" width="581" height="259" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize" timestamp="1610694919049">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+     <state x="353" y="285" width="581" height="259" key="com.intellij.docker.deployment.ui.DockerPortBindingsField.v173.dialogSize/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610694919049" />
+-    <state x="413" y="236" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1610698166214">
++    <state x="413" y="236" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1611112213877">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state x="413" y="236" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610698166214" />
+-    <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup" timestamp="1610675712808">
++    <state x="413" y="236" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611112213877" />
++    <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup" timestamp="1611111256598">
+       <screen x="0" y="0" width="1280" height="680" />
+     </state>
+-    <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1610675712808" />
++    <state x="219" y="-1" width="840" height="1034" key="search.everywhere.popup/0.0.1280.680/-1920.0.1920.1040@0.0.1280.680" timestamp="1611111256598" />
+   </component>
+   <component name="XDebuggerManager">
+     <watches-manager>
+Index: test/rocket_test.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package test\r\n\r\nimport (\r\n\t\"encoding/json\"\r\n\t\"fmt\"\r\n\t\"task5/models\"\r\n\t\"task5/pkg/util\"\r\n\t\"testing\"\r\n\t\"time\"\r\n)\r\n\r\nfunc TestRocket(t *testing.T) {\r\n\tutil.StartRocketMQ()\r\n\tmlmets := models.ListMlmets()\r\n\tfmt.Println(len(mlmets))\r\n\tfor _, mlmet := range mlmets {\r\n\t\tfmt.Println(mlmet)\r\n\t\tdata, _ := json.Marshal(&mlmet)\r\n\t\tfmt.Printf(\"%s\", data)\r\n\t\tfmt.Println()\r\n\t\tutil.SendMessageToRocketChan(data, 1, \"test\")\r\n\t}\r\n\r\n\ttime.Sleep(10 * time.Second)\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- test/rocket_test.go	(revision dc99758f53f059cc44da805bf3b592078587c2b6)
++++ test/rocket_test.go	(date 1611047029656)
+@@ -23,3 +23,11 @@
+ 
+ 	time.Sleep(10 * time.Second)
+ }
++
++func TestRocketFormat(t *testing.T) {
++	//util.StartRocketMQ()
++	mloutTypes := models.ListMloutTypesBetweenInterval("24")
++	for _,mloutType := range mloutTypes {
++		fmt.Println(mloutType)
++	}
++}
+\ No newline at end of file
+Index: models/mlmet.go
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package models\r\n\r\nimport (\r\n\t\"task5/pkg/util\"\r\n\t\"time\"\r\n)\r\n\r\ntype Mlmet struct {\r\n\tId            int64 `gorm:\"primary key;AUTO_INCREMENT\"`\r\n\tTimePoint     time.Time\r\n\tPositionName  string `gorm:\"type:varchar(50)\"`\r\n\tPrecipitation float32\r\n\tTemperature   float32\r\n\tWs            float32\r\n\tWd            float32\r\n\tHumidity      float32\r\n\tCloudrate     float32\r\n\tSkycon        string `gorm:\"type:varchar(50)\"`\r\n\tPressure      float32\r\n\tVisibility    float32\r\n\tDswrf         float32\r\n\tAqi           float32\r\n\tPm25          float32\r\n}\r\n\r\nfunc ListMlmets() []Mlmet {\r\n\tutil.DaoLog.Info(\"进行查询\")\r\n\tvar mlmets []Mlmet\r\n\t//db.Where(\"top 10\").Find(&mlmets)\r\n\tdb.Order(\"time_point desc\").Limit(2).Find(&mlmets)\r\n\treturn mlmets\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- models/mlmet.go	(revision dc99758f53f059cc44da805bf3b592078587c2b6)
++++ models/mlmet.go	(date 1611038818241)
+@@ -30,3 +30,4 @@
+ 	db.Order("time_point desc").Limit(2).Find(&mlmets)
+ 	return mlmets
+ }
++

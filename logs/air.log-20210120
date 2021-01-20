@@ -1,0 +1,4 @@
+time="2021-01-20 11:04:23" level=info msg="python端的数据抓取和模型计算完毕，开始生产消息yes" func=task5/routers.goPythonPost file="D:/go_projects/task5/routers/go_python_page.go:20" method=get/post
+time="2021-01-20 11:04:23" level=info msg="进行地址查询" func=task5/models.ListPostions file="D:/go_projects/task5/models/mlout.go:45" method=dao
+time="2021-01-20 11:04:24" level=info msg="进行污染物查询" func=task5/models.ListSubstances file="D:/go_projects/task5/models/mlout.go:56" method=dao
+time="2021-01-20 11:04:24" level=info msg="将消息发送给rocket" func=task5/routers.goPythonPost file="D:/go_projects/task5/routers/go_python_page.go:31" method=rocket

@@ -1,0 +1,11 @@
+time="2021-01-18 16:05:38" level=info msg="登录请求" func=task5/routers.loginGet file="D:/go_projects/task5/routers/user_page.go:20" method=get/post
+time="2021-01-18 16:07:43" level=info msg=loginPost func=task5/routers.loginPost file="D:/go_projects/task5/routers/user_page.go:25" method=dao
+time="2021-01-18 16:07:43" level=info msg="验证用户名和密码" func=task5/models.CheckUser file="D:/go_projects/task5/models/user.go:19" method=dao
+time="2021-01-18 16:07:44" level=info msg="验证成功!" func=task5/models.CheckUser file="D:/go_projects/task5/models/user.go:22" method=dao
+time="2021-01-18 16:07:51" level=info msg="按照时间节点和污染物条件查询" func=task5/routers.servicePost file="D:/go_projects/task5/routers/prediction_page.go:29" method=dao
+time="2021-01-18 16:08:05" level=info msg="按照时间节点和污染物条件查询" func=task5/routers.servicePost file="D:/go_projects/task5/routers/prediction_page.go:29" method=dao
+time="2021-01-18 16:08:50" level=info msg="按照时间节点和污染物条件查询" func=task5/routers.servicePost file="D:/go_projects/task5/routers/prediction_page.go:29" method=dao
+time="2021-01-18 16:09:01" level=info msg="按照时间节点和污染物条件查询" func=task5/routers.servicePost file="D:/go_projects/task5/routers/prediction_page.go:29" method=dao
+time="2021-01-18 16:09:17" level=info msg="按照时间节点和污染物条件查询" func=task5/routers.servicePost file="D:/go_projects/task5/routers/prediction_page.go:29" method=dao
+time="2021-01-18 16:17:21" level=info msg="列出所有用户" func=task5/routers.listUserHandler file="D:/go_projects/task5/routers/user_page.go:11" method=get/post
+time="2021-01-18 16:17:21" level=info msg="执行查询所有用户操作！" func=task5/models.ListUsers file="D:/go_projects/task5/models/user.go:45" method=dao
