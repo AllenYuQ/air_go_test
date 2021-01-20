@@ -2,6 +2,7 @@ package routers
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"task5/models"
@@ -23,18 +24,13 @@ func goPythonPost(c *gin.Context) {
 		"code": http.StatusOK,
 	})
 
-	/*
-		mlmets := models.ListMlmets()
-		util.RocketLog.Info("将消息发送给rocket")
-		for _, mlmet := range(mlmets) {
-			data, _ := json.Marshal(&mlmet)
-			util.SendMessageToRocketChan(data, 1,"test")
-		}*/
 	//将预测数据发送给rocket mq
-	mlouts := models.ListMloutsBetweenInterval("24")
+	//mlouts := models.ListMloutsBetweenInterval("24")
+	mloutTypes := models.ListMloutTypesBetweenInterval("24")
+	fmt.Println(mloutTypes)
 	util.RocketLog.Info("将消息发送给rocket")
-	for _, mlout := range mlouts {
-		data, _ := json.Marshal(&mlout)
+	for _, mloutType := range mloutTypes {
+		data, _ := json.Marshal(&mloutType)
 		util.SendMessageToRocketChan(data, 1, "test")
 	}
 	//消息发送完毕

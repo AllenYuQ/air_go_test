@@ -23,3 +23,11 @@ func TestRocket(t *testing.T) {
 
 	time.Sleep(10 * time.Second)
 }
+
+func TestRocketFormat(t *testing.T) {
+	//util.StartRocketMQ()
+	mloutTypes := models.ListMloutTypesBetweenInterval("24")
+	for _, mloutType := range mloutTypes {
+		fmt.Println(mloutType)
+	}
+}

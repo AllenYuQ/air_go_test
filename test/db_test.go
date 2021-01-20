@@ -46,3 +46,30 @@ func TestMlout(t *testing.T) {
 	mlouts := models.ListMloutsBetweenInterval("24")
 	fmt.Println(mlouts)
 }
+
+func TestListPosition(t *testing.T) {
+	positions := models.ListPostions()
+	fmt.Println(positions)
+	fmt.Println(len(positions))
+	for _, str := range positions {
+		switch str {
+		case positions[0]:
+			fmt.Println(positions)
+			break
+		default:
+			fmt.Println("1")
+		}
+	}
+}
+
+func TestMloutTypeList(t *testing.T) {
+	mloutTypes := models.ListMloutTypesBetweenInterval("2")
+	for i := 0; i < len(mloutTypes); i++ {
+		fmt.Println(mloutTypes[i])
+	}
+}
+
+func TestSubstancesList(t *testing.T) {
+	substances := models.ListSubstances()
+	fmt.Println(substances)
+}
