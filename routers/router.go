@@ -20,6 +20,7 @@ func InitRouter() *gin.Engine {
 	r.GET("/predictions/check", serviceGet)
 	r.POST("/predictions/check", servicePost)
 	r.POST("/go_python", goPythonPost)
-
+	r.GET("/recharge", rechargeGet)
+	r.POST("/recharge", recharge)
 	return r
 }

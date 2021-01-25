@@ -25,7 +25,6 @@ func goPythonPost(c *gin.Context) {
 	})
 
 	//将预测数据发送给rocket mq
-	//mlouts := models.ListMloutsBetweenInterval("24")
 	mloutTypes := models.ListMloutTypesBetweenInterval("24")
 	fmt.Println(mloutTypes)
 	util.RocketLog.Info("将消息发送给rocket")

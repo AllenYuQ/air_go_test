@@ -1,6 +1,9 @@
 package models
 
-import "task5/pkg/util"
+import (
+	"fmt"
+	"task5/pkg/util"
+)
 
 type User struct {
 	//数据表名是字段名的蛇形小写，例如 CreateTime  create_time
@@ -45,4 +48,16 @@ func ListUsers() []User {
 	util.DaoLog.Info("执行查询所有用户操作！")
 	db.Find(&users)
 	return users
+}
+
+func ExistUser(id string) bool {
+	util.DaoLog.Info("给定id查询用户是否存在！")
+	var user User
+	db.First(&user, id)
+
+	if user.Id > 0 {
+		fmt.Println(user.Realname)
+		return true
+	}
+	return false
 }

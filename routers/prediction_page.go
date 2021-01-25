@@ -15,6 +15,7 @@ func serviceGet(c *gin.Context) {
 
 func servicePost(c *gin.Context) {
 	//获取查询的timePoint(起始时间), hour(持续时长), serviceType(预测物)
+	//输入的时间格式  2021-01-15 13:00:00
 	timePoint := c.PostForm("time")
 	substance := c.PostForm("substance")
 	hour := c.PostForm("hour")

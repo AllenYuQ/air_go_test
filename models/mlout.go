@@ -75,7 +75,8 @@ func ListMloutsBetweenInterval(interval string) []Mlout {
 	duration, _ := time.ParseDuration(interval)
 	end_time := begin_time.Add(duration)
 	endTimePoint := end_time.Format(base_format)
-
+	str_time = "2021-01-19 15:00:00"
+	endTimePoint = "2021-01-20 15:00:00"
 	var mlouts []Mlout
 	db.Where("time_point >= ? AND time_point <= ?", str_time, endTimePoint).Find(&mlouts)
 	return mlouts

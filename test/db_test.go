@@ -73,3 +73,11 @@ func TestSubstancesList(t *testing.T) {
 	substances := models.ListSubstances()
 	fmt.Println(substances)
 }
+
+func TestRechargeHistory(t *testing.T) {
+	fmt.Println(models.RechargeHistory("111"))
+}
+
+func TestRecharge(t *testing.T) {
+	fmt.Println(models.Recharge("1", "1"))
+}

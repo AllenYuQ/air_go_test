@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>余额显示</title>
+</head>
+<tbody>
+<table border="1">
+    <thead>
+    <tr>
+        <th>用户ID</th>
+        <th>余额</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{range .data}}
+        <tr>
+            <td>{{.UserId}}</td>
+            <td>{{.Count}}</td>
+        </tr>
+    {{end}}
+    </tbody>
+</table>
+</tbody>
+</html>
